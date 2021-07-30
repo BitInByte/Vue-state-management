@@ -23,7 +23,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { Task } from '@/features/tasks/models/task';
-import { taskActionTypes } from '../store/tasks';
 interface TaskFormState {
   taskInput: string;
   loading: boolean;
@@ -42,7 +41,7 @@ export default defineComponent({
       if (this.taskInput.length > 0) {
         this.loading = true;
         const task = new Task(this.taskInput, Date.now());
-        await this.$store.dispatch(taskActionTypes.ADD_TASK, task);
+        await this.$store.tasks.addTask(task);
         this.loading = false;
       }
     },

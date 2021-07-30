@@ -1,16 +1,9 @@
-import { createStore } from 'vuex';
-import { TaskModule, TaskStore } from '@/features/tasks/store/tasks';
+import { TasksStore } from '@/features/tasks/store/tasks';
 
 export interface IStore {
-  Tasks: TaskStore;
+  tasks: TasksStore;
 }
 
-export interface RootStore {
-  name?: string;
-}
-
-export default createStore<RootStore>({
-  modules: {
-    Tasks: TaskModule,
-  },
-});
+export default {
+  tasks: new TasksStore(),
+};

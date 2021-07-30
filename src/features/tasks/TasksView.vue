@@ -11,7 +11,6 @@
 import { defineComponent } from 'vue';
 import TasksForm from '@/features/tasks/components/TasksForm.vue';
 import TasksList from '@/features/tasks/components/TasksList.vue';
-import { taskActionTypes } from '@/features/tasks/store/tasks';
 
 interface TaskViewState {
   loading: boolean;
@@ -30,7 +29,7 @@ export default defineComponent({
   },
   async mounted(): Promise<void> {
     this.loading = true;
-    await this.$store.dispatch(taskActionTypes.GET_TASKS);
+    await this.$store.tasks.getTasks();
     this.loading = false;
   },
 });
