@@ -3,6 +3,7 @@ import App from './App.vue';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@/config/themes/index.scss';
+import store from '@/config/store/index';
 
 const tasksApp = createApp(App);
 
@@ -16,4 +17,5 @@ requireComponent.keys().forEach(function (fileName) {
   tasksApp.component(baseComponentName, baseComponentConfig);
 });
 
+tasksApp.use(store);
 tasksApp.mount('#app');

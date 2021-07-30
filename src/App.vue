@@ -9,11 +9,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import TasksView from '@/features/tasks/TasksView.vue';
+import { defineComponent } from "vue";
+import TasksView from "@/features/tasks/TasksView.vue";
 
 export default defineComponent({
-  name: 'App',
+  name: "App",
   components: {
     TasksView,
   },

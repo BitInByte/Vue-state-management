@@ -20,25 +20,31 @@
   </form>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue';
+import { Task } from '@/features/tasks/models/task';
+import { taskActionTypes } from '../store/tasks';
+interface TaskFormState {
+  taskInput: string;
+  loading: boolean;
+}
 
 export default defineComponent({
   name: 'TasksForm',
-  data() {
+  data(): TaskFormState {
     return {
       taskInput: '',
+      loading: false,
     };
   },
-  props: {
-    loading: {
-      type: Boolean,
-      required: true,
-    },
-  },
   methods: {
-    onSubmit() {
-      this.$emit('onSubmit', this.taskInput);
+    async onSubmit(): Promise<void> {
+      if (this.taskInput.length > 0) {
+        this.loading = true;
+        const task = new Task(this.taskInput, Date.now());
+        await this.$store.dispatch(taskActionTypes.ADD_TASK, task);
+        this.loading = false;
+      }
     },
   },
 });

@@ -1,7 +1,7 @@
 <template>
   <div class="row my-4 justify-content-center">
     <base-spinner v-if="loading"></base-spinner>
-    <div class="col-md-12 col-lg-8" v-if="!loading">
+    <div class="col-md-12 col-lg-8 text-center" v-if="!loading">
       <p v-if="!hasTasks">No Tasks Added!</p>
       <ul class="list-group" v-if="hasTasks">
         <tasks-list-item
@@ -16,17 +16,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent } from 'vue';
 import TasksListItem from '@/features/tasks/components/TasksListItem.vue';
 import { Task } from '@/features/tasks/models/task';
+import { taskActionTypes } from '@/features/tasks/store/tasks';
 
 export default defineComponent({
   name: 'TasksList',
   props: {
-    tasks: {
-      type: Array as PropType<Task[]>,
-      required: true,
-    },
     loading: {
       type: Boolean,
       required: true,
@@ -39,10 +36,13 @@ export default defineComponent({
     hasTasks(): boolean {
       return this.tasks.length > 0;
     },
+    tasks(): Task[] {
+      return this.$store.state.Tasks.tasks;
+    },
   },
   methods: {
-    onClick(taskId: string) {
-      this.$emit('onDelete', taskId);
+    onClick(taskId: string): void {
+      this.$store.dispatch(taskActionTypes.DELETE_TASK, taskId);
     },
   },
 });
