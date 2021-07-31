@@ -17,16 +17,15 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { observer } from 'mobx-vue';
 import TasksListItem from '@/features/tasks/components/TasksListItem.vue';
 import { Task } from '@/features/tasks/models/task';
-import { Subscription } from 'rxjs';
 
 interface TasksListState {
   tasks: Task[];
-  subscription?: Subscription;
 }
 
-export default defineComponent({
+export default observer({
   name: 'TasksList',
   props: {
     loading: {
@@ -34,12 +33,16 @@ export default defineComponent({
       required: true,
     },
   },
-  data(): TasksListState {
+  data() {
     return {
-      tasks: [],
-      subscription: undefined,
+      tasks: this.$tasks.tasks.tasks,
     };
   },
+  // data(): TasksListState {
+  // return {
+  // tasks: [],
+  //};
+  //},
   // subscriptions() {
   // console.log('Tasks: ', this.$store.tasks);
   // return {
@@ -53,19 +56,6 @@ export default defineComponent({
     hasTasks(): boolean {
       return this.tasks.length > 0;
     },
-  },
-  // Since vue-rx is not supported in vue3 yet,
-  // we can subscribe to it manually and
-  // unsubscribe
-  created() {
-    this.subscription = this.$store.tasks.tasks$.subscribe(
-      (tasks) => (this.tasks = tasks)
-    );
-  },
-  beforeUnmount() {
-    if (this.subscription) {
-      this.subscription.unsubscribe;
-    }
   },
   methods: {
     onClick(taskId: string): void {

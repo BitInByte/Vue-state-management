@@ -4,7 +4,6 @@ import App from './App.vue';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@/config/themes/index.scss';
 import store from '@/config/store';
-import VueRx from 'vue-rx';
 import { Observable, Subscription } from 'rxjs';
 
 const tasksApp = createApp(App);
@@ -18,8 +17,6 @@ requireComponent.keys().forEach(function (fileName) {
     fileName.replace(/^.+\//, '').replace(/\.\w+$/, '');
   tasksApp.component(baseComponentName, baseComponentConfig);
 });
-
-// tasksApp.use(VueRx, { Subscription, Observable });
 
 tasksApp.config.globalProperties.$store = store;
 
